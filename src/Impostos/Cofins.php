@@ -5,14 +5,20 @@ namespace Alura\DesignPattern\Impostos;
 use Alura\DesignPattern\Orcamento;
 use Alura\DesignPattern\Impostos\Imposto;
 
-class Cofins implements Imposto
+class Cofins extends ImpostoCom2Aliquotas
 {
-    public function calculaImposto(Orcamento $orcamento): float
+    protected function deveAplicarTaxaMaxima(Orcamento $orcamento): bool
     {
-        if ($orcamento->valor > 300 && $orcamento->qtdItens > 3) {
-            return $orcamento->valor * 0.04;
-        }
+        return $orcamento->valor > 300 && $orcamento->qtdItens > 3;
+    }
 
+    protected function aplicaTaxaMaxima(Orcamento $orcamento): float
+    {
+        return $orcamento->valor * 0.04;
+    }
+
+    protected function aplicaTaxaMinima(Orcamento $orcamento): float
+    {
         return $orcamento->valor * 0.025;
     }
 }

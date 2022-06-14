@@ -3,16 +3,22 @@
 namespace Alura\DesignPattern\Impostos;
 
 use Alura\DesignPattern\Orcamento;
-use Alura\DesignPattern\Impostos\Imposto;
+use Alura\DesignPattern\Impostos\ImpostoCom2Aliquotas;
 
-class IE implements Imposto
+class IE extends ImpostoCom2Aliquotas
 {
-    public function calculaImposto(Orcamento $orcamento): float
+    protected function deveAplicarTaxaMaxima(Orcamento $orcamento): bool
     {
-        if ($orcamento->valor > 500) {
-            return $orcamento->valor * 0.03;
-        }
+        return $orcamento->valor > 500;
+    }
 
+    protected function aplicaTaxaMaxima(Orcamento $orcamento): float
+    {
+        return $orcamento->valor * 0.03;
+    }
+
+    protected function aplicaTaxaMinima(Orcamento $orcamento): float
+    {
         return $orcamento->valor * 0.02;
     }
 }
