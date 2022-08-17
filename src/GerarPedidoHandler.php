@@ -3,6 +3,9 @@
 namespace Alura\DesignPattern;
 
 use DateTimeImmutable;
+use Alura\DesignPattern\AcoesAoGerarPedido\LogGerarPedido;
+use Alura\DesignPattern\AcoesAoGerarPedido\CriarPedidoNoBanco;
+use Alura\DesignPattern\AcoesAoGerarPedido\EnviarPedidoPorEmail;
 
 class GerarPedidoHandler
 {
@@ -20,11 +23,13 @@ class GerarPedidoHandler
         $pedido->dataFinalizacao = new DateTimeImmutable();
         $pedido->orcamento = $orcamento;
 
-        /** PedidoRepository */
-        echo "Criar pedido no banco de dados" . PHP_EOL;
-
-        /** Mailservice */
-        echo "Enviar e-mail para o cliente" . PHP_EOL;
+        $pedidosRepository = new CriarPedidoNoBanco();
+        $logGerarPedido = new LogGerarPedido();
+        $enviarPedidoPorEmail = new EnviarPedidoPorEmail();
+        
+        $pedidosRepository->executaAcao($pedido);
+        $logGerarPedido->executaAcao($pedido);
+        $enviarPedidoPorEmail->executaAcao($pedido);
 
         print_r($pedido);
     }
