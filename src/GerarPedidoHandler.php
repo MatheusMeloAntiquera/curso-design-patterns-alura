@@ -3,11 +3,26 @@
 namespace Alura\DesignPattern;
 
 use DateTimeImmutable;
+use Alura\DesignPattern\AcoesAoGerarPedido\LogGerarPedido;
+use Alura\DesignPattern\AcoesAoGerarPedido\CriarPedidoNoBanco;
+use Alura\DesignPattern\AcoesAoGerarPedido\AcaoAposGerarPedido;
+use Alura\DesignPattern\AcoesAoGerarPedido\EnviarPedidoPorEmail;
 
 class GerarPedidoHandler
 {
+    /**
+     * Undocumented variable
+     *
+     * @var AcaoAposGerarPedido[]
+     */
+    private array $acoesAposGerarPedido = [];
+
     public function __construct(/** PedidoRepository, Mailservice */){
 
+    }
+
+    public function adicionarAcaoAoGerarPedido(AcaoAposGerarPedido $acao){
+        $this->acoesAposGerarPedido[] = $acao;
     }
 
     public function execute(GerarPedido $gerarPedido){
@@ -20,12 +35,10 @@ class GerarPedidoHandler
         $pedido->dataFinalizacao = new DateTimeImmutable();
         $pedido->orcamento = $orcamento;
 
-        /** PedidoRepository */
-        echo "Criar pedido no banco de dados" . PHP_EOL;
+        foreach($this->acoesAposGerarPedido as $acao){
+            $acao->executaAcao($pedido);
+        }
 
-        /** Mailservice */
-        echo "Enviar e-mail para o cliente" . PHP_EOL;
-
-        print_r($pedido);
+        // print_r($pedido);
     }
 }
