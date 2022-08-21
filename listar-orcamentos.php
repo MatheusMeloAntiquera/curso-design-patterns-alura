@@ -1,6 +1,7 @@
 <?php
 
 use Alura\DesignPattern\Orcamento;
+use Alura\DesignPattern\ListaOrcamentos;
 
 require_once "vendor/autoload.php";
 
@@ -22,12 +23,10 @@ $orcamento3->aprova();
 $orcamento3->finaliza();
 $orcamento3->valor = 3000;
 
-$listaOrcamentos = [
-    $orcamento1,
-    $orcamento2,
-    $orcamento3,
-    'Eu sou muito valição quebrei o código'
-];
+$listaOrcamentos = new ListaOrcamentos();
+$listaOrcamentos->adicionaOrcamento($orcamento1);
+$listaOrcamentos->adicionaOrcamento($orcamento2);
+$listaOrcamentos->adicionaOrcamento($orcamento3);
 
 foreach ($listaOrcamentos as $orcamento){
     echo "Valor: {$orcamento->valor}" . PHP_EOL;
