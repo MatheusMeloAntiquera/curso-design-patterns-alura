@@ -8,7 +8,7 @@ class Orcamento
 {
     public int $qtdItens;
     public float $valor;
-    private $estadoAtual;
+    public $estadoAtual;
 
     public function __construct()
     {
